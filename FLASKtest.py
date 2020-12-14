@@ -342,7 +342,7 @@ def set_cutIn_config(sw_str, time_val_str):
     cutIn_minutes = int(time_val_str)
 
 def get_cost(name): # 用菜單的名子取得價錢(int)，如果沒找到則回傳-1
-    with open('menus_init_file.csv', 'r', newline='') as csvfile:
+    with open('menus_init_file.csv', 'r', newline='', encoding="utf8") as csvfile:
         reader = csv.reader(csvfile) # reader 是一個 2D list
         for data in reader:
             menu_str = data[0]
