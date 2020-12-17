@@ -23,12 +23,11 @@ try:
         cursor.execute(sql)
         result = cursor.fetchall()
         result_list = list()
-        for row in result:  # type(row) == <class 'tuple'>   ex: (87,)
-            result_list.append(row[0])  #  轉成int list
+        for row in result:
+            result_list.append(row[0])
         maxid = max(result_list)
         if maxid > 1:
             search_index = maxid + 1
-
 
 except ModuleNotFoundError:
     use_mysql = False
@@ -48,11 +47,8 @@ class tw_datetime():
 		dt = datetime.datetime.now(tw)
 		return dt
 
-#def True_the_init():
-
 
 app = Flask('MYapp')
-
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -95,7 +91,6 @@ def check_updata():
                 'menus-init': init_dictList
             }
         }
-        #data_json = json.dumps(re_data)
         return jsonify(re_data)
 
 @app.route("/servedMenu/<table_number>" , methods=["GET"])
@@ -130,7 +125,6 @@ def return_menusOfserved(table_number):
 
 @app.route("/download_menufile" , methods=["GET"])
 def out_csvfile():
-    #print("out_csvfile start")
     gate_sw = False
     try:
         verify_token = request.args.get('token')
@@ -144,8 +138,7 @@ def out_csvfile():
         return jsonify({'error-code':'501', 'error-message':"token Failed"})
 
     if gate_sw:
-        #print('token good')
-        directory = os.getcwd()  # 假设在当前目录
+        directory = os.getcwd()
         return send_from_directory(directory, 'menus_init_file.csv', as_attachment=True)
 
 hub_list = list()
@@ -157,7 +150,6 @@ def creat_postHub(hub_str):
 
 def waiting_delet_hub(del_hub_str):
     global hub_list
-    # 等待5分鐘
     time.sleep(300)
     list_index = 0
     for hub_key in hub_list:
@@ -184,7 +176,6 @@ def findDictList_tableOf(target_table):
 
 def regRemove(target_table):
     global reg_table
-    #max_row = len(reg_table) - 1
     while True:
         row_index = 0
         for line in reg_table:
@@ -214,18 +205,13 @@ def in_csvfile(hub):
     if not have_hub:
         return "NO hub", 200
 
-    #m_file = request.form['file']  # str
     m_file_byte = request.get_data()
     print(len(m_file_byte))
     print(m_file_byte)
     try:
 
-        directory = os.getcwd()  # 假设在当前目录
+        directory = os.getcwd()
         filename = "menus_init_file.csv"
-
-        #print(m_file)
-        #encode_file = m_file.encode(encoding='UTF-8')
-        #print(decoded_file)
 
         with open(filename, 'wb') as csvfile:
             csvfile.write(m_file_byte)
@@ -245,22 +231,16 @@ def menu_sort(new_list, remove_index = None, moveReg = False):
     global file_table
     global cutIn_sw
     global reg_table
-    #print('load global file_table')
-    #print(file_table)
     if not remove_index:
         if len(file_table) == 0:
-            #print('first data')
-            file_table.append(new_list) # 如果是空的直接插入第一筆資料
+            file_table.append(new_list)
             return file_table
         else:
             if cutIn_sw:
-                #print('more data....')
                 for r in range(1 , len(file_table) + 1):  # 由下往上找
                     index = r * -1
                     if file_table[index][0] == new_list[0]: # 如果有相同桌號的訂單
-                        #print('index = {0} , table e.q.'.format(index))
                         if index == -1: # 如果在最後尾找到目標，則直接新增於最後尾
-                            #print('index is last , use .append')
                             file_table.append(new_list)
                             return file_table
                         else:
@@ -271,10 +251,8 @@ def menu_sort(new_list, remove_index = None, moveReg = False):
                             new_datetime = datetime.datetime.strptime(new_list[3], "%Y-%m-%d %H:%M:%S")
                             
                             if new_datetime < target_datetime: # 如果新來的訂單沒有超過同桌訂單5分鐘
-                                #print('file_table.insert({i}, {n})'.format(i=index + len(file_table),n=new_list))
                                 file_table.insert(index + 1, new_list) # 插入同桌的最末尾
                                 return file_table
-                #print('file_table no insert , use .append')
                 file_table.append(new_list) # 如果不符合同桌插隊則加入訂單最末尾
                 return file_table
             else:
@@ -303,13 +281,11 @@ def menu_sort(new_list, remove_index = None, moveReg = False):
 
 def removeIndex(index, mod):
     global lock
-    #print(type(index))
-    #print(index)
     if mod == 0:
         removed_list = menu_sort([], remove_index = index)
     elif mod == 1:
         removed_list = menu_sort([], remove_index = index, moveReg = True)
-    new_removed_list = copy.deepcopy(removed_list) # 生成新的LIST
+    new_removed_list = copy.deepcopy(removed_list)
     # 每一行最後尾插入priority(順位)，以防list順序亂掉
     priority = 1
     for i in range(len(new_removed_list)):
@@ -317,14 +293,12 @@ def removeIndex(index, mod):
         priority += 1
     
     # 同步至父進程
-    lock.acquire() # 锁住
+    lock.acquire()
     global request_list
-    request_list[:] = [] # 初始化
+    request_list[:] = []
     for add in new_removed_list:
         request_list.append(add)
-    #print('in ' + __name__)
-    #print(request_list)
-    lock.release() # 释放
+    lock.release()
 
 def re_cutIn_data(target_client):
     global cutIn_sw
@@ -359,7 +333,6 @@ def get_cost(name): # 用菜單的名子取得價錢(int)，如果沒找到則�
 def request_of_app():
     global lock
     global search_index
-    #global file_table
 
     if len(request.data) > 0:
         try:
@@ -369,7 +342,6 @@ def request_of_app():
         except:
             print('!!! poster error : Not json !!!')
             print(request.data)
-            #print(request.form)
             return "Not json", 200
 
         j = json.loads(request.data.decode('utf8'))['base-root']['menu-requests']
@@ -383,7 +355,6 @@ def request_of_app():
             return "form errors", 200
     else:
         print('poster error : other')
-        #print(request.form)
         return "other", 200
 
     print("get ['menu-requests']")
@@ -420,12 +391,9 @@ def request_of_app():
                 connection.commit()
             print("Data commited.")
 
-        #print('sort menu....')
         menu_table = menu_sort(new_menu) # 經過排序後，擁有優先順序確立
-        #print('point 3')
-        #print(menu_table)
 
-    new_menu_table = copy.deepcopy(menu_table) # 生成新的LIST
+    new_menu_table = copy.deepcopy(menu_table)
     # 每一行最後尾插入priority(順位)，以防list順序亂掉
     priority = 1
     for i in range(len(new_menu_table)):
@@ -433,33 +401,24 @@ def request_of_app():
         priority += 1
         
     # 同步至父進程
-    lock.acquire() # 锁住
+    lock.acquire()
     global request_list
-    request_list[:] = [] # 初始化
+    request_list[:] = []
     for add in new_menu_table:
         request_list.append(add)
-    #print('in ' + __name__)
-    #print(request_list)
-    lock.release() # 释放
-    #print(menu_table)
-    #file_table.append(new_list)
+    lock.release()
 
     with open('requests_menu.csv', 'w', newline='') as csvfile:
-        #print('file output')
         output_table = list()
         output_table.clear()
         writer = csv.writer(csvfile)
         for menu in new_menu_table:
             output_table.append(menu)
         for output_line in output_table:
-            #print(output_table)
-            #print(output_line)
-            #output_line[3] = output_line[3].strftime("%Y-%m-%d %H:%M:%S")
             if output_line[4] == '':
                 output_line[4] = '(no hint)'
         try:
             writer.writerows(output_table)
-            # [tabel,menu,val,date,other,index,priority]
         except UnicodeEncodeError:
             print("output_table no save")
 
@@ -475,23 +434,15 @@ def root(strating, m_list, m_lock, rev_Queue, send_Queue):
         global lock
         lock = m_lock
 
-        lock.acquire() # 锁住
+        lock.acquire()
         global request_list
-        #print('m_list is = ')
-        #print(m_list)
         request_list = m_list
-        #request_list.append('test_str__FLASK')
         global Queue_send_to_TcpServer
         Queue_send_to_TcpServer = send_Queue
-        #print('FLASK')
-        lock.release() # 释放
-        #print(type(lock))
-        #print(lock)
-        #time.sleep(1)
+        lock.release()
         t = threading.Thread(target = waiting_QueueEvent, args=(rev_Queue,))
         t.start()
         app.run(host='0.0.0.0', debug=True, port=21000, use_reloader=False)
-        #print('FLASK_end')
 
 def waiting_QueueEvent(Queue):
     while True:
@@ -503,7 +454,6 @@ def waiting_QueueEvent(Queue):
             Event_list = Event_msg.split(' ')
             event_type = Event_list[0]
             event_values = list(Event_list[1:])
-            #print(event_type, event_values)
 
             if event_type == 'removeIndex': # removeIndex 5 , removeIndex 2 ...
                 removeIndex(event_values[0], 0)

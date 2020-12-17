@@ -12,31 +12,14 @@ class user_client():
     def __init__(self, user_name, client_obj):
         self.user_name = user_name
         self.client_obj = client_obj
-    #def print_obj(self):
-    #    print(self.client_obj)
     def send(self, string):
         if not isinstance(string, bytes):
             string = bytes(string, encoding='utf8')
         self.client_obj.send(string)
-
     def send_json(self, dict_response):
         jresp = json.dumps(dict_response).encode('utf-8')
-        # send_msg
-        #j = json.loads(jresp)
-        #print('send json to [{0}]'.format(self.user_name))
-        #print(json.dumps(j, indent=4, sort_keys=True))
-        # send_msg
-        #print(type(jresp))
         self.client_obj.send(jresp)
-
-    '''
-    會導致阻塞，不建議使用
-    def recv(self , size = 8192):
-            msg = self.request.recv(size)
-    '''
     def shutdown(self):
-        #print(dir(self.client_obj))
-        #self.client_obj.shutdown(0) 
         self.client_obj.close()
 
 login_user_list = dict()
@@ -48,7 +31,6 @@ class EchoHandler(BaseRequestHandler):
         global login_user_list
         client_name = str(self.client_address).replace(' ','')
         print('Welcome to ' + client_name)
-        # 初始化
         first_nock = True
         ACCOUNT_HAND = 'ac='
         PASSWORD_HAND = 'pw='
@@ -71,8 +53,6 @@ class EchoHandler(BaseRequestHandler):
                     msg_list = msg.split(' ')
                     ac = msg_list[0][msg_list[0].find(ACCOUNT_HAND) + len(ACCOUNT_HAND):]
                     pw = msg_list[1][msg_list[1].find(PASSWORD_HAND) + len(PASSWORD_HAND):]
-                    #print(msg_list)
-                    #print("ac = [{0}] pw = [{1}]".format(ac, pw))
                     with open('user_list.csv', 'r', newline='') as csvfile:
                         reader = csv.reader(csvfile)
                         for row in reader:
@@ -84,33 +64,16 @@ class EchoHandler(BaseRequestHandler):
                                     print('user [{0}] is login'.format(ac))
 
                                     # 同步至父進程
-                                    lock.acquire() # 锁住
+                                    lock.acquire()
                                     global user_list
-                                    for key in user_list.keys(): # 初始化
+                                    for key in user_list.keys():
                                         del user_list[key]
                                     for key in login_user_list.keys():
                                         user_list[key] = login_user_list[key]
-                                    #print('in ' + __name__)
-                                    #print(type(user_list))
-                                    #print(user_list)
-                                    lock.release() # 释放
-                                    '''
-                                    print('------- orignal obj --------')     原始物件
-                                    print(self.request)
-                                    #del self.request
-                                    print('------- packet obj --------')      和COPY物件互不影響(可以同時存在，也可以其中一方消滅)
-                                    print(login_user_list[client_name][1])
-                                    login_user_list[client_name][1].print_obj()
-                                    login_user_list[client_name][1].send_test('string_test')    兩者皆可以與客戶端溝通
-                                    '''
+                                    lock.release()
                                     welcome_zone = False
-                                    #threading.Thread(target=self.listen_mode, args=(self,client_name,ac))
                                     self._send('LOGIN_COMPLETE')
-                                    break
-                                    '''
-                                    print('_send is return') 送出訊息後，沒得到回覆也不會阻塞
-                                    '''
-                                    
+                                    break   
                                 else:
                                     self._send('NOT_PW')
                                     self._shutdown()
@@ -132,19 +95,17 @@ class EchoHandler(BaseRequestHandler):
 
             if not msg: # 如果對方斷開連結
                 print('lost client from ' + client_name)
-                #self._shutdown()
                 if login_user_list.__contains__(client_name):
                     print('user is logout from ' + client_name)
                     login_user_list[client_name][1].shutdown()
                     del login_user_list[client_name]
                     # 同步至父進程
-                    lock.acquire() # 锁住
-                    #global user_list
-                    for key in user_list.keys(): # 初始化
+                    lock.acquire()
+                    for key in user_list.keys():
                         del user_list[key]
                     for key in login_user_list.keys():
                         user_list[key] = login_user_list[key]
-                    lock.release() # 释放
+                    lock.release()
                 break
             else: # 其他指令
                 command_str , value_list = self.readJson_to_command(msg) # 解析指令
@@ -155,9 +116,8 @@ class EchoHandler(BaseRequestHandler):
                     send_msg = ""
 
                     if command_str == 'serving_index':
-                        target_index = value_list[0] # str格式
+                        target_index = value_list[0]
                         sub_mod = value_list[1]
-                        #temp_list = self.copy_menus_list(menus_list)
 
                         # 告訴FLASKtest 將要被刪除的index
                         if sub_mod == '-d':
@@ -185,10 +145,7 @@ class EchoHandler(BaseRequestHandler):
 
 
     def readJson_to_command(self, json_str):
-        #print('def readJson_to_command(self, json)')
         dict_temp = json.loads(json_str)
-        #print('is load')
-        #print(dict_temp)
         if not dict_temp['base-root'].__contains__('command-cast'):
             print('!!! readJson_to_command error !!!')
             return "ERROR" , []
@@ -232,9 +189,6 @@ class EchoHandler(BaseRequestHandler):
         return msg
 
     def _shutdown(self):
-        #print(threading.current_thread())
-        #print(self.request)
-        #print('-------- is shutdown ---------')
         self.server.shutdown_request(self.request)
 
 def find_clientObj(name_key):
@@ -269,30 +223,17 @@ def root(strating, m_dict, m_lock, rev_Queue, send_Queue):
         global Queue_send_to_poster
         lock = m_lock
         Queue_send_to_poster = send_Queue # 傳給FLASKtest的訊息Queue
-        lock.acquire() # 锁住
+        lock.acquire()
         global user_list
         user_list = m_dict
-        #print('TCP')
         serv = ThreadingTCPServer(('0.0.0.0', 20000), EchoHandler)
         serv.daemon_threads = True
-        #serv.shutdown_request(self.request)
-        #user_list['test'] = 'test_str__TCP'
         print("RUN (ctrl + C to Exit)")
-        lock.release() # 释放
+        lock.release()
 
         t = threading.Thread(target = waiting_QueueEvent, args=(rev_Queue,))
         t.start()
         serv.serve_forever()
-        
-        
-        '''
-        try:
-            print("RUN (ctrl + C to Exit)")
-            serv.serve_forever()
-        except KeyboardInterrupt:
-            serv.shutdown()
-            exit()
-        '''
 
 
 def waiting_QueueEvent(Queue):
@@ -305,12 +246,10 @@ def waiting_QueueEvent(Queue):
             Event_list = Event_msg.split(' ')
             event_type = Event_list[0]
             event_values = list(Event_list[1:])
-            #print(event_type, event_values)
 
             if event_type == 're_cutIn':
                 sw = event_values[0]
                 time_val = event_values[1]
                 target_client = event_values[2]
                 re_cutIn_toClient(sw, time_val, target_client)
-
     

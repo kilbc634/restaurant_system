@@ -9,19 +9,7 @@ def root(get_list, get_dict , m_lock):
     #加載所需資料
     while True:
         
-        m_lock.acquire() # 锁住
-        '''
-        print('=============================================')
-        print('get_dict = ')
-        print(type(get_dict))
-        print(get_dict)
-        print('get_list = ')
-        print(type(get_list))
-        print(get_list)
-        print('=============================================')
-        print(datetime.datetime.now())
-        '''
-
+        m_lock.acquire()
         ''' # sample
         =============================================
         get_dict =
@@ -45,7 +33,7 @@ def root(get_list, get_dict , m_lock):
         for key in get_dict.keys():
             users_list.append(get_dict[key][1])
 
-        m_lock.release() # 释放
+        m_lock.release()
 
         broad_cast()
 
