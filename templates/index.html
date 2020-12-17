@@ -92,23 +92,21 @@
     </div>
 </section>
 
-<section class="features3 cid-rrLCDGt7He mbr-parallax-background" id="features3-4">
-
-    
-
-    
+<section class="features3 mbr-parallax-background" :class="menuData.background" v-for="menuData in menuDatas">
     <div class="container">
         <div class="media-container-row">
             <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
+                <div class="card-wrapper" v-if="menuData.menu[0] != undefined">
                     <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/clc01-2-492x331.jpg') }}" alt="Mobirise" title="">
+                        <img :src="menuData.menu[0].image" alt="Mobirise" title="">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">
-                            孜然羊排
+                            {{menuData.menu[0].name}}
                         </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">NT$ 280</p>
+                        <p class="mbr-text mbr-fonts-style display-7">
+                            NT$ {{menuData.menu[0].cost}}
+                        </p>
                     </div>
                     <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">+</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
                             0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">-</a></div>
@@ -116,16 +114,16 @@
             </div>
 
             <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
+                <div class="card-wrapper" v-if="menuData.menu[1] != undefined">
                     <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/df7eab44-0fd8-4f1e-ac55-30da184ac94b-1-492x487.jpg') }}" alt="Mobirise" title="">
+                        <img :src="menuData.menu[1].image" alt="Mobirise" title="">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">
-                            背肩牛排
+                            {{menuData.menu[1].name}}
                         </h4>
                         <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 250
+                            NT$ {{menuData.menu[1].cost}}
                         </p>
                     </div>
                     <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
@@ -136,16 +134,16 @@
             </div>
 
             <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
+                <div class="card-wrapper" v-if="menuData.menu[2] != undefined">
                     <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-9258a5b6c922d48a-1-492x369.jpg') }}" alt="Mobirise" title="">
+                        <img :src="menuData.menu[2].image" alt="Mobirise" title="">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">
-                            牛小排
+                            {{menuData.menu[2].name}}
                         </h4>
                         <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 230
+                            NT$ {{menuData.menu[2].cost}}
                         </p>
                     </div>
                     <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
@@ -156,16 +154,16 @@
             </div>
 
             <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
+                <div class="card-wrapper" v-if="menuData.menu[3] != undefined">
                     <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/4001781704source-picture-159959-492x492.jpg') }}" alt="Mobirise" title="">
+                        <img :src="menuData.menu[3].image" alt="Mobirise" title="">
                     </div>
                     <div class="card-box">
                         <h4 class="card-title mbr-fonts-style display-7">
-                            無骨雞腿排
+                            {{menuData.menu[3].name}}
                         </h4>
                         <p class="mbr-text mbr-fonts-style display-7">
-                           NT$ 140
+                            NT$ {{menuData.menu[3].cost}}
                         </p>
                     </div>
                     <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
@@ -178,7 +176,7 @@
     </div>
 </section>
 
-<section class="features3 cid-rrQ3YsmoMI mbr-parallax-background" id="features3-b">
+<!-- <section class="features3 cid-rrQ3YsmoMI mbr-parallax-background" id="features3-b">
 
     
 
@@ -342,7 +340,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 
   <script src="{{ url_for('static', filename='assets/web/assets/jquery/jquery.min.js') }}"></script>
@@ -355,160 +353,8 @@
   <script src="{{ url_for('static', filename='assets/touchswipe/jquery.touch-swipe.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/parallax/jarallax.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/theme/js/script.js') }}"></script>
-
-  <script>
-    var cards = document.getElementsByClassName("card-wrapper");
-    for(var i = 0; i < cards.length; i++){
-        var card = cards[i];
-        var plus_btn = card.getElementsByTagName("a")[0];
-        plus_btn.onclick = Function("btn_plus_value(" + i + ")");
-        var minus_btn = card.getElementsByTagName("a")[2];
-        minus_btn.onclick = Function("btn_minus_value(" + i + ")");
-    }
-
-    var div_title_btn = document.getElementsByClassName("navbar-buttons mbr-section-btn")[0];
-    var title_btn_objs = div_title_btn.getElementsByTagName("a");
-
-    var title_money_obj = document.getElementsByClassName("navbar-caption-wrap")[0].getElementsByTagName("a")[0];
-    var title_setTable_obj = title_btn_objs[0];
-    var title_viewBackLog_obj = title_btn_objs[1];
-    var myTable_val = 0;
-    var myMoney_val = 0;
-    title_setTable_obj.onclick = Function("setTable()");
-    
-  </script>
-
-  <script>
-    function moneyView_updata() {
-        title_money_obj.innerText = "總金額 NT$ " + myMoney_val;
-    }
-
-    function btn_plus_value(num) {
-        var cards = document.getElementsByClassName("card-wrapper");
-        var card = cards[num];
-
-        var value_btn = card.getElementsByTagName("a")[1];
-        var number = parseInt(value_btn.innerText);
-        number += 1;
-        value_btn.innerText = number.toString();
-
-        var cost_str = card.getElementsByTagName("p")[0].innerText;
-        var cost_val = parseInt(cost_str.split(" ")[1]);
-        myMoney_val += cost_val;
-        moneyView_updata()
-    }
-
-    function btn_minus_value(num) {
-        var cards = document.getElementsByClassName("card-wrapper");
-        var card = cards[num];
-
-        var value_btn = card.getElementsByTagName("a")[1];
-        var number = parseInt(value_btn.innerText);
-        if(number > 0){
-            number -= 1;
-            value_btn.innerText = number.toString();
-
-            var cost_str = card.getElementsByTagName("p")[0].innerText;
-            var cost_val = parseInt(cost_str.split(" ")[1]);
-            myMoney_val -= cost_val;
-            moneyView_updata()
-        } 
-    }
-
-    function setTable() {
-        var input_str = prompt("請輸入桌號", myTable_val.toString());
-        var value = parseInt(input_str);
-        if( !isNaN(value) ){
-            myTable_val = value;
-        }
-        else{
-            alert("桌號設定錯誤，請重新設定");
-        }
-    }
-  </script>
-
-  <script>
-    function getList() {
-        var return_list = []
-
-        var menu_table = myTable_val.toString();
-        var cards = document.getElementsByClassName("card-wrapper");
-        for(var i = 0; i < cards.length; i++){
-            var card = cards[i];
-            var value_btn = card.getElementsByTagName("a")[1];
-            var count = parseInt(value_btn.innerText);
-            if(count > 0){
-                var menu_name = card.getElementsByTagName("h4")[0].innerText;
-                var menu_value = count.toString();
-                return_list.push({
-                    "menu": menu_name,
-                    "value": menu_value,
-                    "table": menu_table
-                })
-            }
-        }
-
-        return return_list;
-    }
-
-    function clear_cards() {
-        var cards = document.getElementsByClassName("card-wrapper");
-        for(var i = 0; i < cards.length; i++){
-            var card = cards[i];
-            var value_btn = card.getElementsByTagName("a")[1];
-            value_btn.innerText = "0";
-        }
-    }
-
-    $(document).ready(function() {
-        $(".btn-success").click(function() {
-
-            var requests_list = getList();
-            if(requests_list.length === 0){
-                alert("尚未選擇餐點");
-                return;
-            }
-            
-            var check_msg = "請問您確定要送出一下餐點嗎?\n";
-            for(var i = 0; i < requests_list.length; i++){
-                var menu_str = requests_list[i]["menu"];
-                var val_str = requests_list[i]["value"];
-                check_msg += "\n" + menu_str + "  " + val_str + "個";
-            }
-            var user_check_window = confirm(check_msg);
-            if(!user_check_window){
-                return;
-            }
-
-            var rootJson = JSON.stringify({
-                "base-root":
-                {
-                    "menu-requests": requests_list
-                }
-            });
-
-            $.ajax({
-                type: "POST",
-                async: true,
-                dataType: "text",
-                url: "/poster",
-                contentType: 'application/json;',
-                data: rootJson,
-                success: function(msg) {
-                    console.log(msg);
-                    if(msg != "OK"){
-                        alert("傳輸失敗");
-                    }
-
-                    clear_cards();
-                    myMoney_val = 0;
-                    moneyView_updata();
-                }
-            });
-        });
-    });
-  </script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <script src="{{ url_for('static', filename='custom/js/index.js') }}"></script>
   
  <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">
