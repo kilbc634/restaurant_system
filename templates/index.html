@@ -92,258 +92,95 @@
     </div>
 </section>
 
-<section class="features3 mbr-parallax-background" :class="menuData.background" v-for="menuData in menuDatas">
-    <div class="container">
-        <div class="media-container-row">
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper" v-if="menuData.menu[0] != undefined">
-                    <div class="card-img">
-                        <img :src="menuData.menu[0].image" alt="Mobirise" title="">
+<div id="menuZone">
+    <section class="features3 mbr-parallax-background" :class="menuData.background" v-for="(menuData, index) in menuDatas" :key="index">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="card p-3 col-12 col-md-6 col-lg-3">
+                    <div class="card-wrapper" v-if="menuData.menu[0] != undefined">
+                        <div class="card-img">
+                            <img :src="menuData.menu[0].image" alt="Mobirise" title="">
+                        </div>
+                        <div class="card-box">
+                            <h4 class="card-title mbr-fonts-style display-7">
+                                ${menuData.menu[0].name}
+                            </h4>
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                NT$ ${menuData.menu[0].cost}
+                            </p>
+                        </div>
+                        <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">+</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
+                                0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">-</a></div>
                     </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            {{menuData.menu[0].name}}
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ {{menuData.menu[0].cost}}
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">+</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">-</a></div>
                 </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper" v-if="menuData.menu[1] != undefined">
-                    <div class="card-img">
-                        <img :src="menuData.menu[1].image" alt="Mobirise" title="">
+    
+                <div class="card p-3 col-12 col-md-6 col-lg-3">
+                    <div class="card-wrapper" v-if="menuData.menu[1] != undefined">
+                        <div class="card-img">
+                            <img :src="menuData.menu[1].image" alt="Mobirise" title="">
+                        </div>
+                        <div class="card-box">
+                            <h4 class="card-title mbr-fonts-style display-7">
+                                ${menuData.menu[1].name}
+                            </h4>
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                NT$ ${menuData.menu[1].cost}
+                            </p>
+                        </div>
+                        <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
+                                +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
+                                0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
+                                -</a></div>
                     </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            {{menuData.menu[1].name}}
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ {{menuData.menu[1].cost}}
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
                 </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper" v-if="menuData.menu[2] != undefined">
-                    <div class="card-img">
-                        <img :src="menuData.menu[2].image" alt="Mobirise" title="">
+    
+                <div class="card p-3 col-12 col-md-6 col-lg-3">
+                    <div class="card-wrapper" v-if="menuData.menu[2] != undefined">
+                        <div class="card-img">
+                            <img :src="menuData.menu[2].image" alt="Mobirise" title="">
+                        </div>
+                        <div class="card-box">
+                            <h4 class="card-title mbr-fonts-style display-7">
+                                ${menuData.menu[2].name}
+                            </h4>
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                NT$ ${menuData.menu[2].cost}
+                            </p>
+                        </div>
+                        <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
+                                +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
+                                0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
+                                -</a></div>
                     </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            {{menuData.menu[2].name}}
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ {{menuData.menu[2].cost}}
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
                 </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper" v-if="menuData.menu[3] != undefined">
-                    <div class="card-img">
-                        <img :src="menuData.menu[3].image" alt="Mobirise" title="">
+    
+                <div class="card p-3 col-12 col-md-6 col-lg-3">
+                    <div class="card-wrapper" v-if="menuData.menu[3] != undefined">
+                        <div class="card-img">
+                            <img :src="menuData.menu[3].image" alt="Mobirise" title="">
+                        </div>
+                        <div class="card-box">
+                            <h4 class="card-title mbr-fonts-style display-7">
+                                ${menuData.menu[3].name}
+                            </h4>
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                NT$ ${menuData.menu[3].cost}
+                            </p>
+                        </div>
+                        <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
+                                +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
+                                0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
+                                -</a></div>
                     </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            {{menuData.menu[3].name}}
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ {{menuData.menu[3].cost}}
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- <section class="features3 cid-rrQ3YsmoMI mbr-parallax-background" id="features3-b">
-
-    
-
-    
-    <div class="container">
-        <div class="media-container-row">
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            豬排＋雞腿排
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">NT$ 270</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">+</a>  <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">-</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            牛排＋雞腿排
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 290</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            牛排＋豬排
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 280</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            里肌豬排
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                           NT$ 130
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="features3 cid-rrQ3ZpScas mbr-parallax-background" id="features3-c">
-
-    
-
-    
-    <div class="container">
-        <div class="media-container-row">
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            沙朗牛排
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">NT$ 150</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">+</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">-</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/large-d1ce75da8130b4f8-1-492x369.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            鐵板麵
-                        </h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 70
-                        </p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/noresult-1-458x321.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            (無)</h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            NT$ 0</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper">
-                    <div class="card-img">
-                        <img src="{{ url_for('static', filename='assets/images/noresult-1-458x321.jpg') }}" alt="Mobirise" title="">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            (無)</h4>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                           NT$ 0</p>
-                    </div>
-                    <div class="mbr-section-btn text-center"><a href="javascript:void(0);" class="btn btn-secondary display-4">
-                            +</a> <a href="javascript:void(0);" class="btn btn-black-outline display-4">
-                            0</a> <a href="javascript:void(0);" class="btn btn-warning display-4">
-                            -</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-
+    </section>
+</div>
 
   <script src="{{ url_for('static', filename='assets/web/assets/jquery/jquery.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <script src="{{ url_for('static', filename='custom/js/index.js', ts=ts) }}"></script>
   <script src="{{ url_for('static', filename='assets/popper/popper.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/tether/tether.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -352,9 +189,7 @@
   <script src="{{ url_for('static', filename='assets/dropdown/js/script.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/touchswipe/jquery.touch-swipe.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/parallax/jarallax.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/theme/js/script.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-  <script src="{{ url_for('static', filename='custom/js/index.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='assets/theme/js/script.js') }}"></script> -->
   
  <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">

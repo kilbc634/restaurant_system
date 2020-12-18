@@ -1,23 +1,73 @@
+var myTable_val = 0;
+var myMoney_val = 0;
+
+function btn_plus_value(num) {
+    var cards = document.getElementsByClassName("card-wrapper");
+    var card = cards[num];
+    var value_btn = card.getElementsByTagName("a")[1];
+    var number = parseInt(value_btn.innerText);
+    number += 1;
+    value_btn.innerText = number.toString();
+
+    var cost_str = card.getElementsByTagName("p")[0].innerText;
+    var cost_val = parseInt(cost_str.split(" ")[1]);
+    myMoney_val += cost_val;
+    moneyView_updata()
+}
+
+function btn_minus_value(num) {
+    var cards = document.getElementsByClassName("card-wrapper");
+    var card = cards[num];
+
+    var value_btn = card.getElementsByTagName("a")[1];
+    var number = parseInt(value_btn.innerText);
+    if(number > 0){
+        number -= 1;
+        value_btn.innerText = number.toString();
+
+        var cost_str = card.getElementsByTagName("p")[0].innerText;
+        var cost_val = parseInt(cost_str.split(" ")[1]);
+        myMoney_val -= cost_val;
+        moneyView_updata()
+    } 
+}
+
+function moneyView_updata() {
+    var title_money_obj = document.getElementsByClassName("navbar-caption-wrap")[0].getElementsByTagName("a")[0];
+    title_money_obj.innerText = "總金額 NT$ " + myMoney_val;
+}
+
+function setTable() {
+    var input_str = prompt("請輸入桌號", myTable_val.toString());
+    var value = parseInt(input_str);
+    if(value){
+        myTable_val = value;
+    }
+    else{
+        if(myTable_val == 0) {
+            alert("桌號設定錯誤，請重新設定");
+        }
+    }
+}
+
 $(function () {
-    var myTable_val = 0;
-    var myMoney_val = 0;
     var div_title_btn = document.getElementsByClassName("navbar-buttons mbr-section-btn")[0];
     var title_btn_objs = div_title_btn.getElementsByTagName("a");
     var title_setTable_obj = title_btn_objs[0];
     var title_viewBackLog_obj = title_btn_objs[1];
     title_setTable_obj.onclick = Function("setTable()");
-    var title_money_obj = document.getElementsByClassName("navbar-caption-wrap")[0].getElementsByTagName("a")[0];
-    
+
     var VmenuSection = new Vue({
-        el: 'section.features3',
+        el: '#menuZone',
+        delimiters: ['${', '}'],
         data: {
             backgrounds: [
-                'cid-rrLCDGt7H',
+                'cid-rrLCDGt7He',
                 'cid-rrQ3YsmoMI',
                 'cid-rrQ3ZpScas'
             ],
             menuDatas: []
-            // [
+            // menuDatas_sample: [
             //     {
             //         'background': 'cid-rrQ3YsmoMI',
             //         'menu': [
@@ -47,9 +97,9 @@ $(function () {
                         });
                     }
                     var menu = {
-                        'name': menuList[index]['name'],
+                        'name': menuList[index]['menu'],
                         'cost': menuList[index]['cost'],
-                        'image': menuList[index]['image']
+                        'image': menuList[index]['img']
                     }
                     this.menuDatas[this.menuDatas.length - 1]['menu'].push(menu);
                 }
@@ -62,58 +112,9 @@ $(function () {
         for(var i = 0; i < cards.length; i++){
             var card = cards[i];
             var plus_btn = card.getElementsByTagName("a")[0];
-            plus_btn.onclick = Function("btn_plus_value(" + i + ")");
+            plus_btn.onclick = Function(`btn_plus_value(${i})`)
             var minus_btn = card.getElementsByTagName("a")[2];
-            minus_btn.onclick = Function("btn_minus_value(" + i + ")");
-        }
-    }
-
-    function moneyView_updata() {
-        title_money_obj.innerText = "總金額 NT$ " + myMoney_val;
-    }
-
-    function btn_plus_value(num) {
-        var cards = document.getElementsByClassName("card-wrapper");
-        var card = cards[num];
-
-        var value_btn = card.getElementsByTagName("a")[1];
-        var number = parseInt(value_btn.innerText);
-        number += 1;
-        value_btn.innerText = number.toString();
-
-        var cost_str = card.getElementsByTagName("p")[0].innerText;
-        var cost_val = parseInt(cost_str.split(" ")[1]);
-        myMoney_val += cost_val;
-        moneyView_updata()
-    }
-
-    function btn_minus_value(num) {
-        var cards = document.getElementsByClassName("card-wrapper");
-        var card = cards[num];
-
-        var value_btn = card.getElementsByTagName("a")[1];
-        var number = parseInt(value_btn.innerText);
-        if(number > 0){
-            number -= 1;
-            value_btn.innerText = number.toString();
-
-            var cost_str = card.getElementsByTagName("p")[0].innerText;
-            var cost_val = parseInt(cost_str.split(" ")[1]);
-            myMoney_val -= cost_val;
-            moneyView_updata()
-        } 
-    }
-
-    function setTable() {
-        var input_str = prompt("請輸入桌號", myTable_val.toString());
-        var value = parseInt(input_str);
-        if(value){
-            myTable_val = value;
-        }
-        else{
-            if(myTable_val == 0) {
-                alert("桌號設定錯誤，請重新設定");
-            }
+            minus_btn.onclick = Function(`btn_minus_value(${i})`)
         }
     }
 
@@ -147,6 +148,25 @@ $(function () {
             var value_btn = card.getElementsByTagName("a")[1];
             value_btn.innerText = "0";
         }
+    }
+
+    function load_menu() {
+        var token = {
+            'token': 'test_token'
+        }
+        $.ajax({
+            type: "GET",
+            async: true,
+            dataType: "json",
+            url: "/poster",
+            data: token,
+            success: function(data) {
+                VmenuSection.updateMenuView(data['base-root']['menus-init'])
+                setTimeout(() => {
+                    addClickEvent_forAllCounterBtn()
+                }, 0);
+            }
+        });
     }
 
     $(".btn-success").click(function() {
@@ -183,7 +203,6 @@ $(function () {
             contentType: 'application/json;',
             data: rootJson,
             success: function(msg) {
-                console.log(msg);
                 if(msg != "OK"){
                     alert("傳輸失敗");
                 }
@@ -194,4 +213,6 @@ $(function () {
             }
         });
     });
+
+    load_menu();
 });

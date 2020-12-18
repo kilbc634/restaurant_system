@@ -51,7 +51,7 @@ class tw_datetime():
 app = Flask('MYapp')
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', ts=int(time.time()))
 
 @app.route("/isme" , methods=["GET"])
 def check_me():
@@ -78,7 +78,8 @@ def check_updata():
                 obj_dict = dict()
                 obj_dict['menu'] = data[0]
                 obj_dict['cost'] = data[1]
-                obj_dict['hint'] = data[2]
+                obj_dict['img'] = data[2]
+                obj_dict['hint'] = data[3]
                 init_dictList.append(obj_dict)
     except:
         print(traceback.format_exc())
